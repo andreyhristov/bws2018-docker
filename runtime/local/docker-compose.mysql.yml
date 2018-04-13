@@ -1,0 +1,36 @@
+version: '3'
+services:
+
+    mysql-db:
+        image: mysql:5.7
+        container_name: bws2018_mysqldb
+        command: [mysqld, --innodb-file-per-table]
+        restart: on-failure
+        volumes:
+            - "./volumes/mysql:/var/lib/mysql"
+        networks:
+            - backend
+        ports:
+            - 13306:3306
+        environment:
+            TZ: "UTC"
+            MYSQL_ROOT_PASSWORD: 123456 # this is for demo purposes, in real systems use MYSQL_ROOT_PASSWORD_FILE and docker secrets
+            MYSQL_USER: "mysql" # this is for demo purposes, in real systems use MYSQL_USER_FILE and docker secrets
+            MYSQL_PASSWORD: "pass" # this is for demo purposes, in real systems use MYSQL_PASSWORD_FILE and docker secrets
+            ADDITIONAL_DATABASES: "test_db"
+
+    pma-local:
+        image: phpmyadmin/phpmyadmin:4.7
+        container_name: bws2018_pma_local
+        depends_on:
+            - mysql-db
+        networks:
+            - frontend
+            - backend
+        environment:
+            TZ: "Europe/Sofia"
+            PMA_HOSTS: mysql-db
+            PMA_PORTS: 3306
+            PMA_USER: root
+            PMA_PASSWORD: 123456
+            VIRTUAL_HOST: "pma.bws2018.local"

@@ -1,0 +1,8 @@
+{
+    "name": "bws2018",
+    "type": "project",
+    "description": "BWS2018 demo project",
+    "require": {
+        "monolog/monolog": "1.23.*"
+    }
+}

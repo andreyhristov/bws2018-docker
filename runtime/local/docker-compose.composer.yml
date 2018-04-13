@@ -1,0 +1,13 @@
+version: '2'
+services:
+
+    composer:
+        image: composer:1.6
+        container_name: bws2018_composer
+        restart: on-failure
+        volumes:
+            - "./../../app/:/app"
+            - ./volumes/composer-cache:/composer/cache
+        working_dir: /app
+        environment:
+            TZ: "Europe/Sofia"

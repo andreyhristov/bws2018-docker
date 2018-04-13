@@ -1,0 +1,59 @@
+version: '2'
+services:
+
+    logstash:
+        image: docker.elastic.co/logstash/logstash:5.6.3
+        container_name: bws2018_logstash
+        depends_on:
+            - elasticsearchlogs
+        links:
+            - elasticsearchlogs:elasticsearch
+        volumes:
+            - "./volumes/logstash:/mnt/logstash-forwarder:ro"
+            - "./volumes/apache_logs:/apache_logs/:ro"
+            - ./config/logging/logstash/pipeline.conf:/usr/share/logstash/pipeline/logstash.conf:ro
+            - ./config/logging/logstash/config.yml:/usr/share/logstash/config/logstash.yml:ro
+        command: -f /usr/share/logstash/pipeline/logstash.conf
+        networks:
+            - elk
+        expose:
+            - 5000
+        ports:
+            - "5000:5000"
+        environment:
+            LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+            TZ: "Europe/Sofia"
+
+    elasticsearchlogs:
+        image: docker.elastic.co/elasticsearch/elasticsearch:5.6.3
+        container_name: bws2018_elasticsearchlogs
+        volumes:
+            - ./config/logging/elasticsearch/elasticsearch.config.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
+            - ./volumes/elasticsearch:/usr/share/elasticsearch/data
+        ports:
+            - 9200:9200
+            - 9300:9300
+        networks:
+            - default
+            - elk
+        environment:
+             ES_JAVA_OPTS: "-Xmx256m -Xms256m"
+             TZ: "Europe/Sofia"
+
+    kibana:
+        image: docker.elastic.co/kibana/kibana:5.6.3
+        container_name: bws2018_kibana
+        depends_on:
+            - elasticsearchlogs
+        volumes:
+            - ./config/logging/kibana/kibana.config.yml:/usr/share/kibana/config/kibana.yml:ro
+        networks:
+            - elk
+            - frontend
+        expose:
+           - 5601
+        environment:
+            TZ: "Europe/Sofia"
+            ELASTICSEARCH_URL: http://elasticsearchlogs:9200
+            VIRTUAL_HOST: "kibana.bws2018.local"
+            VIRTUAL_PORT: 5601

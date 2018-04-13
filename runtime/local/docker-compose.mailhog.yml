@@ -1,0 +1,15 @@
+version: '2'
+services:
+
+    mailhog:
+        container_name: bws2018_mailhog
+        image: mailhog/mailhog
+        expose: [ 1025, 8025 ]
+        networks:
+           - frontend
+           - backend
+        environment:
+           VIRTUAL_HOST: 'mailhog.bws2018.local'
+           VIRTUAL_PORT: '8025'
+           TZ: "Europe/Sofia"
+

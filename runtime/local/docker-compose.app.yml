@@ -1,0 +1,28 @@
+version: '3'
+services:
+
+    app:
+        image: andreyhristov/bws2018-app:0.1
+        container_name: bws2018_app
+        depends_on:
+            - mysql-db
+        expose:
+            - 80 # use ports 8000:80 if you want to have it at localhost:8000
+        volumes:
+            - "./../../app/:/app"
+            - "./../assets/:/assets:ro"
+            - "./volumes/apache_logs:/var/log/apache2/"
+        ports:
+            - 4080:80
+        environment:
+            TZ: "Europe/Sofia"
+            APP_ROOT_DIR: /app
+            VIRTUAL_HOST: "app.bws2018.local"
+            VIRTUAL_PORT: 80
+            MYSQL_HOST: "mysql-db" # better use docker secrets but this is for demo purposes
+            MYSQL_USER: "user"
+            MYSQL_PASSWORD: "pass"
+        networks:
+            - frontend
+            - backend
+            - elk

@@ -1,0 +1,19 @@
+version: '3'
+services:
+
+    proxy:
+        image: jwilder/nginx-proxy:0.4.0
+        container_name: bws2018_proxy
+        restart: always
+        networks:
+            - frontend
+        ports:
+            - "80:80"
+            - "443:443"
+        volumes:
+            - "/var/run/docker.sock:/tmp/docker.sock:ro"
+            - "./config/proxy/certs:/etc/nginx/certs"
+            - "./config/proxy/vhost.d:/etc/nginx/vhost.d"
+            - "./config/proxy/htpasswd:/etc/nginx/htpasswd"
+        environment:
+            TZ: "Europe/Sofia"

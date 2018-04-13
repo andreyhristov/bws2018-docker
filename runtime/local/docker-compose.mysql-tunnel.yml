@@ -1,0 +1,16 @@
+version: '3'
+services:
+
+    mysql-tunnel:
+        image: kingsquare/tunnel:forward
+        container_name: bws2018_mysql_tunnel
+        volumes:
+            - $SSH_AUTH_SOCK:/ssh-agent
+        expose: [ 3306 ] # exposes the port to other services
+        ports:
+            - 23306:3306
+        command: "3306:LOCALHOST_IP:13306 LOCALHOST_USER@LOCALHOST_IP -4"
+#        networks:
+#            - backend
+        environment:
+            TZ: "Europe/Sofia"

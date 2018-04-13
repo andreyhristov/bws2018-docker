@@ -1,0 +1,17 @@
+version: '3'
+
+networks:
+#    default:
+#      external:
+#        name: none
+
+    frontend:
+      driver: bridge
+
+    backend:
+      driver: bridge
+#      internal: true
+
+    elk:
+      driver: bridge
+#      internal: true
