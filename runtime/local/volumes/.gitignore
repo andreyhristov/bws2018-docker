@@ -1,4 +1,2 @@
 mysql/*
-apache_logs/*
-elasticsearch/*
-logstatsh/*
+composer-cache/*
