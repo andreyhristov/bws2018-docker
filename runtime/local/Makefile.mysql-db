@@ -1,7 +1,7 @@
 MYSQL_DB_SERVICE_NAME=mysql-db
 
 
-mysql-check-and-create-databases:
+_mysql-check-and-create-databases:
 	$(DC) exec $(MYSQL_DB_SERVICE_NAME) bash -c '\
 		while [[ `mysqladmin ping -uroot -p$$MYSQL_ROOT_PASSWORD 2>/dev/null` != "mysqld is alive" ]] ; \
 			do echo Waiting MySQL Server to start...; sleep 1; \

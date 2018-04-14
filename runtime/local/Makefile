@@ -12,7 +12,7 @@ LOCALHOST_IP=$(shell ifconfig | grep '192.168' | cut -d ':' -f 2 | cut -d ' ' -f
 
 VIRTUAL_HOSTS=$(shell grep VIRTUAL_HOST docker-compose.*.yml | tr -d ' ' | cut -d ':' -f 3 | tr -d '"' | tr -d "'" | sort | tr -s '\n' ' ')
 
-up: _generate-docker-compose-yml _up-aux mysql-check-and-create-databases
+up: _generate-docker-compose-yml _up-aux _mysql-check-and-create-databases
 
 
 _generate-docker-compose-yml:
