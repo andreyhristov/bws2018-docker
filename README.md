@@ -1,4 +1,4 @@
-BWS2018 Docker Demo
+Docker Demo
 ===================
 
 General project structure
