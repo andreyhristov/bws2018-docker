@@ -2,7 +2,7 @@ version: '2'
 services:
 
     composer:
-        image: composer:1.6
+        image: composer:1.7
         container_name: bws2018_composer
         restart: on-failure
         volumes:
